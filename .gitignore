@@ -1,0 +1,13 @@
+# build output
+/build/
+/build-dist/
+/dist/
+*.log
+__pycache__/
+
+# third-party code, not ours to publish: CommonLibSSE-NG is fetched separately (see README.md)
+/extern/
+/research/
+
+# SkyUI's item icons: shipping them needs their authors' leave
+/assets/DragonbornsCodex/icons/item_atlas.dds

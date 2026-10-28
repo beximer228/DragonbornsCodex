@@ -1,0 +1,136 @@
+# Killmoves (in the QA hall). Two hostile NPCs (speedmult 0, so they stay where they are put): the one attacked is not the last enemy, so the game alone gives
+# the player no killmove; confidence 4, or the unarmed prisoners surrender and back off. One-hit kill makes every swing a killing blow. Run on a freshly loaded save.
+wait 3
+console coc qasmoke
+wait 9
+set oneHitKill 1
+set killmoves 0
+set killmoveChance 100
+set killmoveAnyEnemy 1
+apply
+console player.additem 12EB7 1
+console player.equipitem 12EB7
+wait 1
+call attack 14 draw
+wait 2
+# off: as in the game
+# another enemy nearby, so the target is not the last one
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call standFrom last 270 90
+call faceOff last 0
+wait 1
+expect call attack last :: . == true
+wait 0.5
+expect call killmove :: . == false
+wait 6
+expect console @last getdead :: . contains GetDead >> 1.00
+# on, chance 0
+set killmoves 1
+set killmoveChance 0
+apply
+# another enemy nearby, so the target is not the last one
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call standFrom last 270 90
+call faceOff last 0
+wait 1
+expect call attack last :: . == true
+wait 0.5
+expect call killmove :: . == false
+wait 6
+expect console @last getdead :: . contains GetDead >> 1.00
+# on, chance 100, but only the last enemy
+set killmoveChance 100
+set killmoveAnyEnemy 0
+apply
+# another enemy nearby, so the target is not the last one
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call standFrom last 270 90
+call faceOff last 0
+wait 1
+expect call attack last :: . == true
+wait 0.5
+expect call killmove :: . == false
+wait 6
+expect console @last getdead :: . contains GetDead >> 1.00
+# on, chance 100, any enemy
+set killmoveAnyEnemy 1
+apply
+# another enemy nearby, so the target is not the last one
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call standFrom last 270 90
+call faceOff last 0
+wait 1
+expect call attack last :: . == true
+wait 0.5
+expect call killmove :: . == true
+wait 6
+expect console @last getdead :: . contains GetDead >> 1.00
+# on, chance 100, any enemy, but the target is restrained: no killmove (one on a restrained actor crashed the game)
+call spawn mortalnpc
+console @last setav speedmult 0
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call spawn mortalnpc
+console @last setrestrained 1
+console @last setrelationshiprank player -4
+console @last setav aggression 2
+console @last setav confidence 4
+console @last startcombat player
+call standFrom last 270 90
+call faceOff last 0
+wait 1
+expect call attack last :: . == true
+wait 0.5
+expect call killmove :: . == false
+wait 6
+expect console @last getdead :: . contains GetDead >> 1.00
+set killmoves 0
+set oneHitKill 0
+apply
+console killall

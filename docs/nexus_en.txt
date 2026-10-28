@@ -1,0 +1,87 @@
+[center][size=6][b]Dragonborn's Codex[/b][/size]
+[i]An in-game cheat and tool menu for Skyrim SE / AE.[/i]
+[i]Everything the console can do and much more, in one window styled after the game's own menus.[/i][/center]
+
+[size=4][b]Getting started[/b][/size]
+[list]
+[*]Press [b]Insert[/b] to open or close the menu, [b]Esc[/b] closes it. The key can be changed in [i]Service → Menu Hotkey[/i].
+[*]Every switch and slider takes effect at once. Nothing to confirm, nothing to restart.
+[*][b]Ctrl+F[/b] searches the whole menu, so you don't need to know which page a feature is on.
+[*][b]Hotkeys for everything:[/b] click [b]+ Key[/b] next to a feature's name, or right-click the name, then press a key. The hotkey works in the game while the menu is closed. Manage all of them in [i]Service → Hotkeys[/i].
+[*]Drag the window by any empty spot, resize it by its edges and corners. Double-click an edge to reset the size.
+[/list]
+
+[size=4][b]What's inside[/b][/size]
+[list]
+[*][b]Home[/b]: your character at a glance, quick toggles, a list of everything that is on right now (each one turns off with a click), recent actions and recently added items.
+[*][b]Dragonborn[/b]: god mode, infinite health / stamina / magicka, can't die, regeneration, no weight limit, weightless items by kind, disease and paralysis immunity, night eye, water walking and water breathing, transformations (werewolf, vampire, vampire lord, cures), character profiles (save your character's look and stats to a file and load them onto another character).
+[*][b]Combat and movement[/b]: run speed, jump height, size, flight, no clip, free camera, damage dealt and taken, attack speed, one-hit kill, kill moves (with decapitation chances), fast bow draw, [b]aimbot[/b] for bows, crossbows, staffs and spells, slow time while aiming, infinite arrows / staff charge / poison, kill nearby enemies.
+[*][b]Stealth[/b]: lockpicking helper, infinite lockpicks, auto unlock, 100% pickpocket, undetectable by AI, hide HUD.
+[*][b]Highlights (ESP)[/b]: enemies, NPCs, followers, corpses, containers, items, plants, quest items, doors and levers, traps and [b]unsolved puzzles[/b]. Colours, shapes and labels are yours to set.
+[*][b]Magic, shouts, perks[/b]: learn any spell, shout or perk from any mod; free spells, instant casting, no shout or power cooldown; power, duration and cost per school; summons limit; incoming hostile magic.
+[*][b]Enchanting[/b]: enchant anything (even items that normally can't be), any effects, any strength, any number of them, your own names; legendary gear.
+[*][b]Experience and skills[/b]: level, perk points, attributes, skills, learn everything, unlimited training, auto perks.
+[*][b]World and time[/b]: time and weather, stop or slow time, crafting stations anywhere, crafting without perks or materials, infinite ore veins, standing stones, guilds and titles, bounties and the law, followers (immortal, summon, wait here), merchants (rich, restock, buy everything, base prices, summon a merchant), dragons (summon, no dragon attacks), [b]autoloot[/b] and loot nearby, a portable storage chest, [b]solve nearby puzzle[/b] (claw doors, pillars, gears, buttons, levers, chimes, Dwemer resonators...).
+[*][b]Teleport[/b]: to any map marker or your own saved points; fast travel from anywhere, in combat and overloaded, without time passing.
+[*][b]Quests[/b]: push a stuck quest to its next stage or complete it.
+[*][b]Target[/b]: whatever is under your crosshair: kill, resurrect, unlock, claim it as yours, make essential, push away, calm, marry, recruit as a follower, open its inventory, remove from the world.
+[*][b]Console[/b]: run console commands with history; save your own command buttons.
+[*][b]Add items[/b] and [b]Creatures and NPCs[/b]: every form from every loaded plugin, with search, filter by mod, favourites and recent; kits (smithing materials, all ingredients, filled soul gems, lockpicks, or your own); summon any NPC or creature, go to them or bring them to you.
+[*][b]Service[/b]: light (parchment) and dark (gold) themes, compact mode, menu scale, menu hotkey, all hotkeys in one list, language.
+[/list]
+
+[size=4][b]Requirements[/b][/size]
+[list]
+[*][url=https://www.nexusmods.com/skyrimspecialedition/mods/30379]SKSE64[/url]
+[*][url=https://www.nexusmods.com/skyrimspecialedition/mods/32444]Address Library for SKSE Plugins[/url]
+[/list]
+Tested on Skyrim [b]1.6.1170[/b]. Other game versions are not tested yet.
+
+[size=4][b]Installation[/b][/size]
+Install with Mod Organizer 2 or Vortex, or copy the [i]SKSE[/i] folder into [i]Data[/i]. It's a pure SKSE plugin: [b]no .esp, no plugin slot[/b], safe to add to an existing save.
+Works with mods: items, spells, perks, NPCs and puzzles from other plugins show up in the menu by themselves.
+
+[size=4][b]Uninstalling[/b][/size]
+Turn off what you used and save first, then remove the mod. Values the game keeps in the save itself (for example a changed run speed) stay as they were.
+
+[size=4][b]Languages[/b][/size]
+English and Russian. A translation is a single plain .ini file: copy [i]lang\en.ini[/i], translate the values and pick the language in [i]Service → Language[/i]. Translations are welcome.
+
+[size=4][b]Planned[/b][/size]
+[list]
+[*]Own item icons in the item, spell and shout lists.
+[*]More puzzles for the puzzle solver.
+[/list]
+Found a bug or have an idea? Write in the Posts or Bugs tab.
+
+[size=4][b]Credits[/b][/size]
+SKSE team, CommonLibSSE-NG, Dear ImGui (Omar Cornut). Fonts Jost and Oswald (SIL Open Font License). Map marker icons and key glyphs come from Skyrim's own interface (Bethesda). Autoloot rules modelled on SmartHarvest SE.
+
+[size=4][b]Описание на русском[/b][/size]
+[spoiler]
+[b]Dragonborn's Codex[/b] — внутриигровое меню читов и инструментов для Skyrim SE / AE. Всё, что умеет консоль, и гораздо больше — в одном окне в стиле родных меню игры.
+
+[b]Как пользоваться[/b]
+[list]
+[*][b]Insert[/b] — открыть / закрыть, [b]Esc[/b] — закрыть. Клавишу можно сменить: [i]Сервис → Клавиша меню[/i].
+[*]Всё применяется сразу, ничего подтверждать не нужно.
+[*][b]Ctrl+F[/b] — поиск по всему меню.
+[*][b]Горячие клавиши на всё:[/b] нажмите [b]+ Клавиша[/b] рядом с названием функции (или правый щелчок по названию) и нажмите нужную клавишу. Работает в игре при закрытом меню. Все клавиши — в [i]Сервис → Горячие клавиши[/i].
+[*]Окно двигается за любое пустое место и растягивается за края и углы.
+[/list]
+
+[b]Что внутри[/b]
+[list]
+[*][b]Главная[/b]: персонаж одним взглядом, быстрые переключатели, всё, что сейчас включено (выключается одним щелчком), недавние действия.
+[*][b]Довакин[/b]: режим бога, бесконечные здоровье / запас сил / магия, бессмертие, регенерация, без лимита веса, невесомые вещи по видам, иммунитет к болезням и параличу, ночное зрение, хождение по воде и дыхание под водой, превращения, профили персонажа.
+[*][b]Бой и движение[/b]: скорость, прыжок, рост, полёт, проход сквозь стены, свободная камера, урон, скорость атаки, убийство с одного удара, добивания, [b]аимбот[/b] для луков, арбалетов, посохов и заклинаний, бесконечные стрелы / заряды / яд.
+[*][b]Скрытность[/b]: помощь при взломе, бесконечные отмычки, автовзлом, карманные кражи 100 %, невидимость для ИИ.
+[*][b]Подсветка (ESP)[/b]: враги, NPC, трупы, контейнеры, предметы, растения, квестовые вещи, двери, ловушки и [b]нерешённые головоломки[/b].
+[*][b]Магия, крики, перки[/b]: изучить любое заклинание, крик или перк из любого мода, бесплатные заклинания, без перезарядки криков, настройки по школам.
+[*][b]Зачарование[/b]: зачаровать что угодно, любые эффекты любой силы, свои названия.
+[*][b]Опыт и навыки[/b], [b]Мир и время[/b] (погода, станки где угодно, гильдии, закон, спутники, торговцы, драконы, [b]автолут[/b], [b]решение головоломок[/b]), [b]Телепорт[/b], [b]Квесты[/b], [b]Цель[/b], [b]Консоль[/b], [b]Выдача предметов[/b], [b]Существа и NPC[/b].
+[/list]
+
+[b]Требования:[/b] SKSE64 и Address Library for SKSE Plugins. Проверено на версии 1.6.1170. Без .esp, можно ставить на существующее сохранение.
+[b]Удаление:[/b] выключите то, чем пользовались, сохранитесь и удалите мод.
+[/spoiler]

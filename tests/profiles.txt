@@ -1,0 +1,25 @@
+# Character profiles: save, change the character, load back. Writes SKSE\DragonbornsCodexProfiles\Тестовый профиль.txt
+# (deleted at the end). The dev character's weight is 75 and face slider 0 is 0.06. Reload afterwards.
+console player.setav onehanded 77
+console player.setlevel 12
+console player.additem 1397E 3
+wait 1
+expect call saveProfile Тестовый профиль :: . contains сохранён
+wait 1
+console player.setav onehanded 20
+console player.setlevel 3
+call setLook 10 -0.9
+wait 2
+expect call look :: .weight == 10
+console player.removeitem 1397E 99
+wait 1
+expect av OneHanded :: .base == 20
+expect call loadProfile Тестовый профиль :: . contains применён
+wait 3
+expect av OneHanded :: .base == 77
+expect player :: .level == 12
+expect form 1397E :: .playerCount >= 3
+expect player :: .loaded == true
+expect call look :: .weight == 75
+expect call look :: .morph0 > 0
+expect call deleteProfile Тестовый профиль :: . == true

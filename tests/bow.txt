@@ -1,0 +1,45 @@
+# Fast bow draw for the player only. Run on a freshly loaded save (needs a normal, idle player).
+# fast bow draw, the player's shots only: a 0.5 s draw is a full-power, full-speed arrow
+wait 3
+set attackSpeed 1
+set fastBowDraw 0
+apply
+console player.additem 13841 1
+console player.additem 1397D 50
+console player.equipitem 13841
+console player.equipitem 1397D
+console player.setangle x 0
+wait 2
+console player.sae bowAttackStart
+wait 0.5
+console player.sae attackRelease
+wait 0.5
+expect projectiles new :: [0].power < 0.6
+wait 2.5
+set fastBowDraw 1
+apply
+wait 1
+# the draw animation 3x faster while the bow is in hand
+expect av WeaponSpeedMult :: .value >= 2.9
+console player.sae bowAttackStart
+wait 0.5
+console player.sae attackRelease
+wait 0.5
+expect projectiles new :: [0].power == 1
+expect projectiles new :: [0].speed > 2000
+# no vz check: auto-aim may tilt the shot toward a target
+# the game settings shared with NPC archers stay as they are
+expect gs fBowDrawTime :: . > 1.5
+expect gs fArrowMinPower :: . < 0.5
+# Click-Shot auto-aim while the bow is in hand
+expect gs fArrowBowSlowMult :: . == 0.5
+expect gs fAutoAimMaxDegrees :: . == 10
+expect gs fAutoAimMaxDistance :: . == 18000
+console player.unequipitem 13841
+wait 1.5
+expect av WeaponSpeedMult :: .value < 2
+# and back to the game's values once it is put away
+expect gs fAutoAimMaxDegrees :: . == 1
+expect gs fAutoAimMaxDistance :: . == 1800
+set fastBowDraw 0
+apply

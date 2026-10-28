@@ -1,0 +1,42 @@
+# Aimbot (in the QA hall; the player is turned relative to the NPC). A peaceful NPC 20° off the crosshair is left alone (only enemies are taken that far off);
+# aimed nearly at (3° off) it is hit. Run on a freshly loaded save (hurts an NPC: reload after).
+wait 3
+# a flat test hall: no hill between the player and the NPC
+console coc qasmoke
+wait 8
+set fastBowDraw 0
+set aimbot 1
+apply
+console player.dispelallspells
+# no wolves or deer around that could be closer to the crosshair
+console killall
+wait 1
+console player.additem 13841 1
+console player.additem 1397D 50
+console player.equipitem 13841
+console player.equipitem 1397D
+call spawn mortalnpc
+# kept in place; the hall's corridor west of the entrance is clear for 10 m
+console @last setrestrained 1
+call standFrom last 270 1000
+wait 2
+expect console @last getlineofsight 14 :: . contains sees
+call faceOff last 20
+wait 3
+expect console @last getav health :: . contains Health >> 100
+console player.sae bowAttackStart
+wait 1.5
+console player.sae attackRelease
+wait 4
+expect log 10 :: . contains no target
+expect console @last getav health :: . contains Health >> 100
+
+call faceOff last 3
+wait 2
+console player.sae bowAttackStart
+wait 1.5
+console player.sae attackRelease
+wait 5
+expect log 10 :: . contains Пленник
+expect console @last getav health :: . !contains Health >> 100
+set aimbot 0

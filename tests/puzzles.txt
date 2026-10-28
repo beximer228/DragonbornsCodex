@@ -1,0 +1,145 @@
+# Puzzle solver (Мир → «Решить головоломку рядом»): Bleak Falls Barrow pillars (Snake/Snake/Whale) and the
+# Golden Claw door in the Sanctum. Needs a save where both are still unsolved (the dev save); reload afterwards.
+console coc BleakFallsBarrow01
+wait 15
+console player.moveto 000AA8C3
+wait 3
+expect call puzzles :: .found[0].kind == pillars
+expect call puzzles :: .found[0].control == 000AA8C3
+expect call solvePuzzle :: . contains Решаю
+wait 20
+expect call puzzles :: .working == 0
+expect console @000AA8C3 sv :: . contains ::puzzleSolved_var = True
+expect console @0003B9F1 getopenstate :: . contains >> 1.00
+console coc BleakFallsBarrow02
+wait 15
+console player.moveto 0004E2B9
+wait 3
+# without the Golden Claw the door is left alone and the claw is named
+console player.removeitem 00039647 1
+expect call puzzles :: .missingClaws[0] == Золотой коготь
+expect call solvePuzzle :: . contains Золотой коготь
+console player.additem 00039647 1
+expect call puzzles :: .found[0].kind == claw
+expect call solvePuzzle :: . contains Решаю
+wait 30
+expect call puzzles :: .working == 0
+expect console @0004E2B9 sv :: . contains Script state = "Done"
+expect console getstagedone MS13 50 :: . contains >> 1.00
+# nothing left to solve here: the button says so
+expect call solvePuzzle :: . !contains Решаю
+# Skuldafn: the two-stage pillar opens the first gate, then the job re-queues and opens the second one
+console coc Skuldafn01
+wait 15
+console player.moveto 000AB22B
+wait 3
+expect call puzzles :: . contains 000AB22B
+expect call solvePuzzle :: . contains Решаю
+wait 45
+expect call puzzles :: .working == 0
+expect call puzzles :: .found == []
+# Halldir's Cairn: the control is the rotating door (no doorOrDarts, its OnActivate is called)
+console coc HalldirsCairn01
+wait 15
+console player.moveto 000B1D23
+wait 3
+expect call puzzles :: . contains 000B1D23
+expect call solvePuzzle :: . contains Решаю
+wait 30
+expect call puzzles :: .working == 0
+expect call puzzles :: . !contains 000B1D23
+# Shroud Hearth: spinners + a trigger-volume controller; the stray Halldir pillar script on them is ignored
+console coc ShroudHearthBarrow01
+wait 15
+console player.moveto 0006EF97
+wait 3
+expect call puzzles :: . contains 0006EF97
+expect call solvePuzzle :: . contains Решаю
+wait 30
+expect call puzzles :: .working == 0
+expect call puzzles :: . !contains 0006EF97
+# Karthspire: Akaviri pillars (position02 right on all), the bridge comes down by itself after the last turn
+console player.moveto 00050FAF
+wait 15
+expect call puzzles :: . contains 00050FAF
+expect call solvePuzzle :: . contains Решаю
+wait 30
+expect call puzzles :: .working == 0
+expect call puzzles :: . !contains 00050FAF
+# Raldbthar: the gear blockers are knocked out, the chains light both pillars, the button opens and is pressed
+console coc Raldbthar02
+wait 15
+console player.moveto 000F2304
+wait 3
+expect call puzzles :: .found[0].kind == gears
+expect call puzzles :: .found[0].control == 000F2304
+expect call solvePuzzle :: . contains Решаю
+wait 30
+expect call puzzles :: .working == 0
+expect console @000F2304 sv :: . contains ::PillarsLit_var = 2
+expect call puzzles :: .found == []
+# Volskygge: buttons pressed one at a time in their buttonNumber order, no trap
+console coc Volskygge01
+wait 15
+console player.moveto 00068C30
+wait 3
+expect call puzzles :: .found[0].kind == buttons
+expect call solvePuzzle :: . contains Решаю
+wait 40
+expect call puzzles :: .working == 0
+expect console @00068C30 sv :: . contains ::puzzleSolved_var = True
+expect console @00068C30 sv :: . contains ::refActOnFailureCounter_var = 0
+# Kolbjorn Barrow: both pillars at pillarState 1 open the first gate, then both at 2 the second
+console coc DLC2KolbjornBarrow01
+wait 15
+console player.moveto 04020B86
+wait 3
+expect call puzzles :: . contains 04020B86
+expect call solvePuzzle :: . contains Решаю
+wait 45
+expect call puzzles :: .working == 0
+expect console @04018102 getopenstate :: . contains >> 1.00
+expect console @04020B82 getopenstate :: . contains >> 1.00
+# Folgunthur: pull-bar pillars (generic) and the catacomb levers in range together: the fewest levers that open all
+# four gates; then the Bleak-Falls-style pillars further in
+console coc Folgunthur01
+wait 15
+console player.moveto 00085F8C
+wait 3
+expect call puzzles :: . contains levers
+expect call solvePuzzle :: . contains рычаги: 1
+wait 25
+expect call puzzles :: .working == 0
+expect console @00085F8C sv :: . contains ::puzzleSolved_var = True
+expect console @000ADAAB getopenstate :: . contains >> 1.00
+expect console @000ADAAC getopenstate :: . contains >> 1.00
+expect console @000ADAAD getopenstate :: . contains >> 1.00
+expect console @000ADAAE getopenstate :: . contains >> 1.00
+console player.moveto 000AD654
+wait 3
+expect call solvePuzzle :: . contains Решаю
+wait 15
+expect console @000AD654 sv :: . contains ::puzzleSolved_var = True
+# Arkngthamz (DLC1LD_Arkngthamz running): the five resonators struck in ChimeNumber order, no trap
+console coc DLC1Arkngthamz01
+wait 15
+console player.moveto 02008485
+wait 3
+expect call puzzles :: . contains chimes
+expect call solvePuzzle :: . contains резонаторы
+wait 30
+expect call puzzles :: .working == 0
+expect console @02008485 sv :: . contains ::ChimeFailCount_var = 0
+expect console getstage DLC1LD_Arkngthamz :: . contains >> 90
+# Fahlbtharz: steam resonators switched (fewest, charge kept within 0..20) to exactly 20, the door opens, no vent
+console coc DLC2Fahlbtharz03
+wait 15
+console player.moveto 040201B7
+wait 3
+expect call puzzles :: . contains steam
+expect call solvePuzzle :: . contains паровые резонаторы
+wait 40
+expect call puzzles :: .working == 0
+expect console @040201B7 sv :: . contains ::CurrentSteamCharge_var = 20
+expect console @040201B7 sv :: . contains ::FailureTotal_var = 0
+expect console @0402055F getopenstate :: . contains >> 1.00

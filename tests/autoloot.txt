@@ -1,0 +1,17 @@
+# Background autoloot: takes loose items and corpses' loot nearby, leaves the player's own drops
+console coc BleakFallsBarrow01
+wait 15
+set autoLoot 0
+set lootRadius 25
+console player.removeitem 00012EB7 99
+console player.removeitem 0001397E 99
+console player.placeatme 00012EB7 1
+console player.additem 0001397E 1
+console player.drop 0001397E 1
+wait 2
+set autoLoot 1
+wait 8
+expect console player.getitemcount 00012EB7 :: . contains >> 1
+expect console player.getitemcount 0001397E :: . contains >> 0
+shot autoloot
+set autoLoot 0

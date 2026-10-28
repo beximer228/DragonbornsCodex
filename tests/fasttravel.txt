@@ -1,0 +1,35 @@
+# Fast travel blocks: overencumbered, enemies nearby (via the game's own CanFastTravel check)
+set fastTravelAnywhere 0
+set fastTravelIgnoreBans 0
+set noCarryLimit 0
+set weightlessCrafting 0
+wait 1
+expect call canFastTravel :: . == true
+console player.additem 0005ACE4 3000
+wait 3
+expect call canFastTravel :: . == false
+set fastTravelAnywhere 1
+wait 0.5
+expect call canFastTravel :: . == true
+set fastTravelAnywhere 0
+console player.removeitem 0005ACE4 3000
+wait 1
+expect call canFastTravel :: . == true
+# a script ban (Game.EnableFastTravel(false))
+console EnableFastTravel 0
+wait 0.5
+expect call canFastTravel :: . == false
+set fastTravelAnywhere 1
+wait 0.5
+expect call canFastTravel :: . == false
+set fastTravelIgnoreBans 1
+wait 0.5
+expect call canFastTravel :: . == true
+set fastTravelIgnoreBans 0
+wait 0.5
+expect call canFastTravel :: . == false
+console EnableFastTravel 1
+set fastTravelAnywhere 0
+wait 0.5
+expect call canFastTravel :: . == true
+# Enemies nearby (+0A6) was checked by hand: an immortal skeever in combat -> false, with the switch -> true.

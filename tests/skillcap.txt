@@ -1,0 +1,47 @@
+# Skill cap: at 100 a skill gains nothing, above it the skill keeps leveling (use, books) and gives character experience.
+# Changes skills and level experience: reload afterwards.
+wait 3
+set skillCap 100
+apply
+console player.setav onehanded 100
+wait 0.5
+console player.advskill onehanded 100000
+wait 0.5
+expect skillxp onehanded :: .base == 100
+
+set skillCap 250
+apply
+wait 0.5
+expect skillxp onehanded :: .threshold > 0
+console player.advskill onehanded 10
+wait 0.5
+expect skillxp onehanded :: .base == 100
+expect skillxp onehanded :: .xp > 0
+console player.advskill onehanded 100000
+wait 0.5
+expect skillxp onehanded :: .base > 100
+expect skillxp onehanded :: .base < 250
+expect skillxp onehanded :: .threshold > 1000
+
+console player.setav marksman 249
+wait 0.5
+console player.advskill marksman 100000000
+wait 0.5
+expect skillxp marksman :: .base == 250
+console player.incpcs marksman
+wait 0.5
+expect skillxp marksman :: .base == 250
+
+console player.setav sneak 120
+wait 0.5
+console player.incpcs sneak
+wait 0.5
+expect skillxp sneak :: .base == 121
+
+set skillCap 100
+apply
+console player.setav sneak 120
+wait 0.5
+console player.incpcs sneak
+wait 0.5
+expect skillxp sneak :: .base == 120

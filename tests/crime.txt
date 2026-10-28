@@ -1,0 +1,32 @@
+# Crime and jail. Whiterun's crime faction 000267EA; iron dagger 1397E; reload afterwards.
+set noBounty 0
+set keepItemsInJail 0
+expect call bounty 000267EA 500 :: . >= 500
+wait 1.5
+expect call bounty :: . >= 500
+set noBounty 1
+wait 2
+expect call bounty :: . == 0
+set noBounty 0
+
+# jail: confiscated things stay in the chest without the switch, come back with it
+console player.removeitem 1397E 99
+console player.additem 1397E 2
+wait 0.5
+call confiscate 000267EA 1397E 2
+wait 1.5
+expect form 1397E :: .playerCount == 0
+set keepItemsInJail 1
+wait 2
+expect form 1397E :: .playerCount == 2
+set keepItemsInJail 0
+
+# stolen mark: a dagger owned by Lydia, picked up
+call spawn 1397E
+wait 1
+console @last setownership A2C8E
+console @last activate player
+wait 1
+expect call stolenCount :: . == 1
+expect call unmarkStolen :: . == 1
+expect call stolenCount :: . == 0

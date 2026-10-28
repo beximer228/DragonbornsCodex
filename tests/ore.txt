@@ -1,0 +1,21 @@
+# Infinite ore veins: mine past the vein's 3 ore, then turn it off (vein runs dry), then on (dry vein revives).
+# Moves the player to an iron vein outside Embershard Mine — reload the save afterwards.
+set infiniteOre 0
+console tgm
+console player.additem 000E3C16 1
+console player.moveto 0010D7C1
+wait 5
+set infiniteOre 1
+wait 2
+expect console @0010D7C1 sv :: . contains ResourceCountCurrent_var = 9999
+console @0010D7C1 activate player
+wait 30
+expect console @0010D7C1 sv :: . contains ResourceCountCurrent_var = 9999
+expect console player.getitemcount 00071CF3 :: . !contains >> 0.00
+set infiniteOre 0
+wait 30
+expect console @0010D7C1 sv :: . contains ResourceCountCurrent_var = 0
+set infiniteOre 1
+wait 2
+expect console @0010D7C1 sv :: . contains ResourceCountCurrent_var = 9999
+console tgm

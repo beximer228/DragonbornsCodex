@@ -1,0 +1,34 @@
+# Magic schools: cost / magnitude / duration of the player's spells, summon limit, global settings.
+# Casts spells on the player and summons familiars — reload the save afterwards.
+expect spellcost 1C789 :: . > 100
+set destruction.cost 0.5
+expect spellcost 1C789 :: . < 60
+expect spellcost 12FCC :: . > 10
+set destruction.cost 1
+expect spellcost 1C789 :: . > 100
+# Oakflesh: 40 armour for 60 s in the game -> 100 for 180 s
+set alteration.power 2.5
+set alteration.duration 3
+console player.cast 0005AD5C player right
+wait 2
+expect effects :: . contains "magnitude": 100.0, "duration": 180.0
+console player.dispel 0005AD5C
+set alteration.power 1
+set alteration.duration 1
+# Flame cloak: 10 -> 30 per second
+set destruction.power 3
+console player.cast 0003AE9F player right
+wait 2
+expect effects :: . contains "magnitude": 30.0
+console player.dispel 0003AE9F
+set destruction.power 1
+set dualCastPower 2
+set magickaRegen 3
+wait 1
+expect gs fMagicDualCastingEffectivenessBase :: . > 4.3
+expect av MagickaRateMult :: .value == 300
+set dualCastPower 1
+set magickaRegen 1
+wait 1
+expect gs fMagicDualCastingEffectivenessBase :: . < 2.3
+expect av MagickaRateMult :: .value == 100

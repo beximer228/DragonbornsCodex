@@ -1,0 +1,20 @@
+call learnShouts
+call learnPerks
+wait 3
+console save CheatMenuLearnTest
+wait 3
+console load CheatMenuLearnTest
+wait 15
+expect form 00013E07 :: .playerHas == true
+expect form 00052190 :: .playerHas == true
+call forgetLearned
+wait 1
+expect form 00013E07 :: .playerHas == false
+expect form 00052190 :: .playerHas == false
+console save CheatMenuLearnTest2
+wait 3
+console load CheatMenuLearnTest2
+wait 15
+expect form 00013E07 :: .playerHas == false
+expect form 0401DF92 :: .playerHas == false
+expect form 00052190 :: .playerHas == false

@@ -1,0 +1,57 @@
+# Water breathing, one-hit kill, frozen time, merchants, wait anywhere, dungeon reset, vampirism / lycanthropy.
+# Changes the character (vampire for a moment): reload afterwards.
+wait 3
+set waterBreathing 1
+apply
+wait 0.5
+expect av WaterBreathing :: .value >= 1
+set waterBreathing 0
+apply
+wait 0.5
+expect av WaterBreathing :: .value == 0
+
+set oneHitKill 1
+apply
+expect gs fDiffMultHPByPCN :: . > 1000
+set oneHitKill 0
+apply
+expect gs fDiffMultHPByPCN :: . < 100
+
+set freezeTime 1
+wait 1
+expect globals TimeScale :: [0].value == 0
+set freezeTime 0
+wait 1
+expect globals TimeScale :: [0].value > 0
+
+set merchantsBuyAll 1
+apply
+expect log 5 :: . contains Merchants buy anything
+set merchantsBuyAll 0
+apply
+expect call restock :: . > 10
+
+call waitMenu
+wait 1.5
+expect menus :: . contains Sleep/Wait Menu
+uiclose Sleep/Wait Menu
+wait 1
+expect call resetDungeon :: . contains помещениях
+
+expect console player.getisrace NordRaceVampire :: . contains >> 0
+expect call becomeVampire :: . == true
+wait 4
+expect console player.getisrace NordRaceVampire :: . contains >> 1
+expect call cureVampirism :: . == true
+wait 4
+expect console player.getisrace NordRaceVampire :: . contains >> 0
+expect call cureLycanthropy :: . == true
+
+# no random dragons: the main quest's global held at 1, the old value back after
+expect globals MQ106TurnOffRandomDragons :: [0].value == 0
+set noDragonAttacks 1
+apply
+expect globals MQ106TurnOffRandomDragons :: [0].value == 1
+set noDragonAttacks 0
+apply
+expect globals MQ106TurnOffRandomDragons :: [0].value == 0

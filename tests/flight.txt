@@ -1,0 +1,30 @@
+# Flight: up with Space, hover, forward/strafe along the camera (fake WASD via the bridge), soft landing.
+# Faces east in first person (camera forward = +x, right = -y).
+console player.setpos x 24010
+console player.setpos y -15530
+wait 2
+set flight 1
+console player.setangle z 90
+wait 1
+call flightMove
+key space down
+wait 1.5
+key space up
+wait 0.5
+expect player :: .pos[2] > -4200
+wait 2
+expect call cameraAxes :: .col0[0] > 0.9
+call flightMove 0 1
+wait 1
+call flightMove
+wait 0.3
+expect player :: .pos[0] > 24600
+call flightMove 1 0
+wait 1
+call flightMove
+wait 0.3
+expect player :: .pos[1] < -16100
+# switched off in the air: falls, no damage on landing
+set flight 0
+wait 6
+expect player :: .health.cur >= 153

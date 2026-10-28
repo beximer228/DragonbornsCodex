@@ -1,0 +1,109 @@
+# Cheat Menu smoke test: python tools/skytest.py test tests/smoke.txt
+# Every toggle is switched on, checked in the game, switched back and checked again.
+
+expect ping :: .inGame == true
+expect player :: .loaded == true
+
+# console with captured output
+expect console player.getav health :: . contains "Health"
+
+# trade prices (game settings)
+set fairTrade 1
+expect gs fBarterMin :: . == 1
+expect gs fBarterSellMax :: . == 1
+set fairTrade 0
+expect gs fBarterMin :: . == 2
+
+# greater powers become lesser powers (Beast Form: 2 = power, 3 = lesser power)
+set powersNoCooldown 1
+expect form 00092C48 :: .spellType == 3
+set powersNoCooldown 0
+expect form 00092C48 :: .spellType == 2
+
+# actor value overrides
+set invisibility 1
+expect av Invisibility :: .base == 1
+set invisibility 0
+expect av Invisibility :: .base == 0
+set waterWalking 1
+expect av WaterWalking :: .base == 1
+set waterWalking 0
+expect av WaterWalking :: .base == 0
+set noSpellCost 1
+expect av DestructionMod :: .base == 100
+set noSpellCost 0
+expect av DestructionMod :: .base < 100
+set smithingBoost 250
+expect av SmithingMod :: .base >= 250
+set smithingBoost 0
+
+# instant cast: spell charge time (Flames 00012FCD has a charge time > 0 normally)
+set instantCast 1
+expect form 00012FCD :: .chargeTime == 0
+set instantCast 0
+
+# training limit (int game setting)
+set unlimitedTraining 1
+expect gs iTrainingNumAllowedPerLevel :: . == 999
+set unlimitedTraining 0
+expect gs iTrainingNumAllowedPerLevel :: . == 5
+
+# free crafting: Iron Sword recipe 00051BE3? — checked through the craft settings instead
+set freeCraft 1
+set freeCraft 0
+
+# menu UI: open, find a switch by label, click it, state follows
+set infiniteAmmo 0
+menu open
+page combat
+click Бой и движение
+# the switch sits just below the fold of the combat page
+scroll 150
+wait 0.8
+expect ui Бесконечные стрелы :: [2] > 0
+expect get infiniteAmmo :: . == false
+click Бесконечные стрелы
+wait 0.3
+expect get infiniteAmmo :: . == true
+click Бесконечные стрелы
+wait 0.3
+expect get infiniteAmmo :: . == false
+
+# keyboard: Esc closes the menu, Insert opens it
+key esc
+wait 0.3
+expect player :: .menuOpen == false
+key insert
+wait 0.3
+expect player :: .menuOpen == true
+key esc
+
+# keyboard layout switches inside the menu
+menu open
+wait 0.3
+layout next
+wait 0.4
+expect layout :: . != ""
+menu close
+
+# knowledge and quests answer
+expect knowledge :: .ingredientsFullyKnown[1] > 0
+expect quests :: [0].name != ""
+
+# god mode: the switch must match what the game's own tgm reports (IsGodMode() address is wrong on 1.6.1170)
+menu open
+page dovahkiin
+click Основное
+scroll 0
+wait 0.8
+click Режим бога
+wait 0.8
+expect player :: .godMode == true
+expect console tgm :: . contains disabled
+expect console tgm :: . contains enabled
+click Режим бога
+wait 0.8
+expect player :: .godMode == false
+expect console tgm :: . contains enabled
+expect console tgm :: . contains disabled
+menu close

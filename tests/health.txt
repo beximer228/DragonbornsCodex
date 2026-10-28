@@ -1,0 +1,33 @@
+# Infinite health stops damage itself: a blow bigger than the whole bar, or a long fall, does not kill.
+set infiniteHealth 1
+apply
+console coc riverwood
+wait 12
+console player.damageav health 100000
+wait 0.5
+expect console player.getdead :: . contains GetDead >> 0.00
+expect player :: .health.cur > 1
+console player.setpos z 6000
+wait 6
+expect console player.getdead :: . contains GetDead >> 0.00
+expect player :: .health.cur > 1
+# a real enemy blow (Actor::DoDamage, not the console's damageav): a hostile copy of Lydia with ×500 attack damage
+call spawn 000A2C8E
+console @last setav aggression 3
+console @last setav confidence 4
+console @last setav attackdamagemult 500
+console @last setrelationshiprank player -4
+console @last startcombat player
+wait 12
+expect console player.getdead :: . contains GetDead >> 0.00
+expect player :: .health.cur > 1
+console @last disable
+# off: the same blow does hurt (restored at once so the test leaves the player alive)
+set infiniteHealth 0
+apply
+wait 1
+console player.restoreav health 100000
+console player.damageav health 10
+wait 0.5
+expect player :: .health.cur < 150
+console player.restoreav health 100000

@@ -1,0 +1,25 @@
+# Marry anyone / divorce / marry again. PlayerMarriedFaction is 000C6472. Reload afterwards.
+expect call divorce :: . contains не в браке
+call spawn mortalnpc
+wait 2
+expect call marry last :: . contains Брак заключён
+wait 3
+expect console player.getinfaction 000C6472 :: . contains >> 1
+expect console @last getinfaction 000C6472 :: . contains >> 1
+expect call spouse :: . != null
+expect call marry last :: . contains уже в браке
+expect call divorce :: . contains Развод
+wait 3
+expect call spouse :: . == null
+expect console player.getinfaction 000C6472 :: . contains >> 0
+expect console @last getinfaction 000C6472 :: . contains >> 0
+
+# a second marriage with someone else works
+call spawn A2C8E
+wait 2
+expect call marry last :: . contains Брак заключён
+wait 3
+expect console @last getinfaction 000C6472 :: . contains >> 1
+expect call spouse :: . != null
+expect call divorce :: . contains Развод
+wait 2

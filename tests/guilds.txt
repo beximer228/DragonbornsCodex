@@ -1,0 +1,29 @@
+# Thane everywhere + Thieves Guild shortcuts. Changes quests for good: reload the save afterwards.
+expect console getstagedone Favor253 25 :: . contains >> 0
+call thane
+wait 4
+expect console getstagedone Favor250 25 :: . contains >> 1
+expect console getstagedone Favor252 25 :: . contains >> 1
+expect console getstagedone Favor253 25 :: . contains >> 1
+expect console getstagedone Favor254 25 :: . contains >> 1
+expect console getstagedone Favor255 25 :: . contains >> 1
+expect console getstagedone Favor256 25 :: . contains >> 1
+expect console getstagedone Favor257 25 :: . contains >> 1
+expect console getstagedone Favor258 25 :: . contains >> 1
+expect console getstagedone FreeformRiftenThane 200 :: . contains >> 1
+expect console @A2C94 getdisabled :: . contains >> 0
+expect call thane :: . contains уже тан
+
+# Thieves Guild: nothing before joining
+expect call guildJobs :: . contains Сначала вступи
+console completequest TG01
+wait 1
+set thievesGuildQuick 1
+wait 3
+expect console sqv TGRShell :: . contains pTGRWhiterunCount_var = 4
+expect console sqv TGRShell :: . contains pTGRMarkarthCount_var = 4
+call guildJobs
+wait 2
+expect console getstagedone TGRShell 160 :: . contains >> 1
+expect console getstagedone TGRShell 190 :: . contains >> 1
+set thievesGuildQuick 0

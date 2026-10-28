@@ -1,0 +1,36 @@
+# Weightless categories: each switch zeroes only its own items and gives the weight back when switched off.
+set weightlessCrafting 0
+set weightlessWeapons 0
+set weightlessArmor 0
+set weightlessGems 0
+wait 1
+expect form 0005ACE4 :: .weight == 1
+expect form 00012EB7 :: .weight == 9
+set weightlessCrafting 1
+wait 1
+expect form 0005ACE4 :: .weight == 0
+expect form 00012EB7 :: .weight == 9
+expect form 00063B42 :: .weight > 0
+set weightlessWeapons 1
+set weightlessArmor 1
+wait 1
+expect form 00012EB7 :: .weight == 0
+expect form 00012E49 :: .weight == 0
+set weightlessCrafting 0
+set weightlessWeapons 0
+set weightlessArmor 0
+wait 1
+expect form 0005ACE4 :: .weight == 1
+expect form 00012EB7 :: .weight == 9
+expect form 00012E49 :: .weight == 30
+# Health / stamina regeneration multipliers
+set healthRegen 4
+set staminaRegen 2
+wait 1
+expect av HealRateMult :: .value == 400
+expect av StaminaRateMult :: .value == 200
+set healthRegen 1
+set staminaRegen 1
+wait 1
+expect av HealRateMult :: .value == 100
+expect av StaminaRateMult :: .value == 100

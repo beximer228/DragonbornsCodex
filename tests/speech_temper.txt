@@ -1,0 +1,67 @@
+# Persuasion always succeeds: Speech globals held at 0 and restored; intimidation / bribe condition functions pass.
+# Legendary equipment: the worn sword gets ExtraHealth 1.6.
+console coc qasmoke
+wait 9
+set persuadeAlways 0
+apply
+expect globals speechaverage :: [0].value == 50
+call spawn mortalnpc
+call condfn GetIntimidateSuccess last
+call condfn GetBribeSuccess last
+set persuadeAlways 1
+apply
+expect globals speechveryhard :: [0].value == 0
+expect globals speechaverage :: [0].value == 0
+expect call condfn GetIntimidateSuccess last :: . == true
+expect call condfn GetBribeSuccess last :: . == true
+set persuadeAlways 0
+apply
+expect globals speechveryhard :: [0].value == 100
+expect globals speechaverage :: [0].value == 50
+console player.removeitem 12EB7 99
+console player.additem 12EB7 1
+console player.equipitem 12EB7
+wait 1
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": []
+set smithingBoost 0
+apply
+action temperEquipped
+wait 1
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1.6, "ench": []
+# the smithing slider multiplies the improvement: 1000 % -> 1 + 0.6 * 11 = 7.6; set exactly, so going back to 0 gives 1.6 again
+set smithingBoost 1000
+apply
+action temperEquipped
+wait 1
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 7.6, "ench": []
+set smithingBoost 0
+apply
+action temperEquipped
+wait 1
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1.6, "ench": []
+# the enchanting slider: the worn sword's enchantment gets a stronger copy of its own (base 5 -> 10 at +100 %);
+# a built-in one (Iron Sword of Fear) makes it a plain iron sword first, still worn, tempering kept, the base form untouched;
+# pressing again does not compound, back at 0 % the original strength returns
+console player.removeitem 12EB7 99
+console player.removeitem 89714 99
+console player.additem 89714 1
+console player.equipitem 89714
+wait 1
+expect inv 14 :: . contains "00089714", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [5]
+set enchantingBoost 100
+apply
+action temperEquipped
+wait 1
+expect inv 14 :: . !contains "00089714"
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1.6, "ench": [10], "game": "FF
+expect console player.getequipped 12EB7 :: . contains >> 1.00
+expect form 89714 :: .enchantment == "000FBFF7"
+action temperEquipped
+wait 1
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1.6, "ench": [10]
+set enchantingBoost 0
+apply
+action temperEquipped
+wait 1
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1.6, "ench": [5]
+console killall

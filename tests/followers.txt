@@ -1,0 +1,48 @@
+# Immortal followers. Spawns a copy of Lydia (protected: kill only brings her down) and makes her a teammate; makes save CheatMenuFollowerTest -
+# delete it and reload afterwards (it would be the newest save).
+set immortalFollowers 0
+call spawn A2C8E
+wait 1.5
+console @last setplayerteammate 1
+wait 0.5
+expect form last :: .teammate == true
+expect form last :: .essential == false
+
+# on: essential, wounds heal at once, a lethal hit only brings her down
+set immortalFollowers 1
+wait 1
+expect form last :: .essential == true
+console @last damageav health 40
+wait 1
+expect form last :: .health >= 100
+console @last damageav health 99999
+wait 2
+expect form last :: .dead == false
+
+# survives save / load: switched off after loading she is mortal again
+console save CheatMenuFollowerTest
+wait 3
+console load CheatMenuFollowerTest
+wait 15
+expect form last :: .essential == true
+set immortalFollowers 0
+wait 1
+expect form last :: .essential == false
+console @last kill
+wait 2
+expect form last :: .dead == false
+
+# an ordinary (not protected) follower: can't be killed while on, dies once off
+call spawn mortalnpc
+wait 1.5
+console @last setplayerteammate 1
+set immortalFollowers 1
+wait 1
+console @last kill
+wait 2
+expect form last :: .dead == false
+set immortalFollowers 0
+wait 1
+console @last kill
+wait 2
+expect form last :: .dead == true

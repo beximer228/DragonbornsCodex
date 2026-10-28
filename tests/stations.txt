@@ -1,0 +1,130 @@
+# Crafting stations anywhere + enchanting without limits. Run on a freshly loaded dev save (outside Whiterun,
+# player at ~25450 -16130); it adds the Nightingale Blade and leaves a station state behind - reload afterwards.
+# Leaving a station: the bridge hides the menu and makes the player get up, then walks them 800 units off.
+set enchantEffects 1
+set enchantAnything 0
+apply
+console player.additem 7A917 1
+
+# enchanting table: the game's own count (1, 2 with Extra Effect), artifact not offered; learning all
+# enchantments also unmarks internal ones an older version marked known
+call learnEnchantments
+call station 0
+wait 6
+expect menus :: . contains Crafting Menu
+expect enchmenu :: .allowed <= 2
+expect enchmenu :: . !contains Соловьиный клинок
+expect enchmenu :: . !contains Not User Facing
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway 800
+wait 2
+expect log 5 :: . contains left, removed
+
+# 5 effects, artifacts allowed (keyword off the blade, back on when switched off)
+set enchantEffects 5
+set enchantAnything 1
+apply
+expect form 7A917 :: .keywords !contains MagicDisallowEnchanting
+call station 0
+wait 3
+expect enchmenu :: .allowed == 5
+expect enchmenu :: . contains Соловьиный клинок
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway -800
+wait 2
+set enchantEffects 1
+set enchantAnything 0
+apply
+expect form 7A917 :: .keywords contains MagicDisallowEnchanting
+
+# every other station opens its crafting menu and goes away after
+call station 1
+wait 6
+expect menus :: . contains Crafting Menu
+expect log 3 :: . contains Алхимическая
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway 800
+wait 2
+call station 2
+wait 6
+expect menus :: . contains Crafting Menu
+expect log 3 :: . contains "Кузница"
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway -800
+wait 2
+call station 3
+wait 6
+expect menus :: . contains Crafting Menu
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway 800
+wait 2
+call station 4
+wait 6
+expect menus :: . contains Crafting Menu
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway -800
+wait 2
+call station 5
+wait 6
+expect menus :: . contains Crafting Menu
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway 800
+wait 2
+call station 6
+wait 6
+expect menus :: . contains Crafting Menu
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway -800
+wait 2
+call station 7
+wait 6
+expect menus :: . contains Crafting Menu
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway 800
+wait 2
+call station 8
+wait 6
+expect menus :: . contains Crafting Menu
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway -800
+wait 2
+call station 9
+wait 6
+expect menus :: . contains Crafting Menu
+uiclose Crafting Menu
+wait 1
+call standUp
+wait 2
+call stepAway 800
+wait 2
+expect log 3 :: . contains left, removed

@@ -1,0 +1,49 @@
+# Auto perks: raising Smithing to 100 walks the whole tree within a few passes (one rank per node per second).
+console tgm
+expect form 000CB40D :: .playerHas == false
+expect form 00052190 :: .playerHas == false
+set autoPerks 1
+console player.setav smithing 100
+wait 12
+expect form 000CB40D :: .playerHas == true
+expect form 000CB413 :: .playerHas == true
+expect form 00052190 :: .playerHas == true
+# a perk the skill has not grown into stays untouched (Fire Enchanter needs Enchanting 30)
+expect form 00058F80 :: .playerHas == false
+set autoPerks 0
+
+# Learn all: spells with tomes, shouts, every perk
+expect form 0001C789 :: .playerHas == false
+call learnSpells
+wait 1
+expect form 0001C789 :: .playerHas == true
+expect form 000B62EF :: .playerHas == true
+call learnShouts
+wait 3
+expect form 00013E07 :: .playerHas == true
+expect form 00013E22 :: .known == true
+call learnPerks
+wait 1
+expect form 000BABED :: .playerHas == true
+expect form 00058F80 :: .playerHas == true
+
+# Undo takes back exactly what was given
+call forgetLearned
+wait 1
+expect form 0001C789 :: .playerHas == false
+expect form 00013E07 :: .playerHas == false
+expect form 000BABED :: .playerHas == false
+expect form 00052190 :: .playerHas == false
+
+# Only the player's shouts: no dragon / Greybeard copies
+call learnShouts
+wait 3
+expect form 00013E07 :: .playerHas == true
+expect form 0009DE93 :: .playerHas == false
+expect form 00016C40 :: .playerHas == false
+expect form 000E4908 :: .playerHas == false
+expect form 0401DF92 :: .playerHas == true
+call forgetLearned
+wait 1
+expect form 00013E07 :: .playerHas == false
+console tgm

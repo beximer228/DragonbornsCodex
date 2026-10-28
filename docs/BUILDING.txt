@@ -1,0 +1,21 @@
+Building Dragonborn's Codex from source
+=======================================
+Copyright (C) 2026 lnocriesl. Licensed under the GNU General Public License v3.0 or later (see ..\LICENSE.txt).
+
+What is here
+- src\                     the plugin's C++ source
+- CMakeLists.txt, CMakePresets.json, vcpkg.json, vcpkg-configuration.json
+- build_dist.bat           builds the release DLL (preset "dist")
+The menu's data files (lang, fonts, icons, key glyphs) are the ones shipped in the folder above.
+
+Needs
+- Visual Studio 2022 (or Build Tools) with the C++ workload and its bundled vcpkg
+- CommonLibSSE-NG (https://github.com/alandtse/CommonLibSSE-NG) cloned into extern\CommonLibSSE-NG
+
+Build
+1. Copy the data folder above (..\, without this source folder) to assets\DragonbornsCodex.
+2. Run build_dist.bat (fix VSDIR in it if Visual Studio is installed elsewhere).
+3. The DLL is build-dist\DragonbornsCodex.dll.
+
+The release DLL is built with CODEX_TEST_BRIDGE=OFF; the developer's in-game test bridge
+(src\TestBridge.cpp) is not part of it and not included here.

@@ -1,0 +1,21 @@
+# ESP marks unsolved puzzles (kind 10): Bleak Falls pillars' lever, the claw door with and without its claw
+set esp 1
+set espInteract 1
+console coc BleakFallsBarrow01
+wait 15
+console player.moveto 000AA8C3
+wait 4
+expect esp :: . contains 000AA8C3|10|Головоломка
+expect call solvePuzzle :: . contains Решаю
+wait 20
+expect esp :: . !contains 000AA8C3|10|
+console coc BleakFallsBarrow02
+wait 15
+console player.moveto 0004E2B9
+console player.removeitem 00039647 1
+wait 4
+expect esp :: . contains 0004E2B9|10|Когтевая дверь · нужен Золотой коготь
+console player.additem 00039647 1
+wait 4
+expect esp :: . contains 0004E2B9|10|Когтевая дверь
+expect esp :: . !contains нужен

@@ -1,0 +1,11 @@
+# «Призвать дракона»: refused indoors, outdoors a hostile dragon appears in the air ahead.
+console coc qasmoke
+wait 9
+expect action spawnDragon :: . contains открытым небом
+console coc riverwood
+wait 12
+expect action spawnDragon :: . contains летит к тебе
+wait 3
+expect refs 120 дракон :: [0].hostile == true
+expect refs 120 дракон :: [0].dead == false
+console killall

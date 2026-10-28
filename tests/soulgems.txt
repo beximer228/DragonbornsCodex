@@ -1,0 +1,68 @@
+# Soul gems. Uses petty gems (empty 2E4E2, filled 2E4E3); console removeitem stands in for using a gem
+# (removed from the player into nothing, as the enchanting table and recharging do).
+set soulGemsKeep 0
+set soulGemsFull 0
+set anySoulInAnyGem 0
+apply
+console player.removeitem 2E4E2 999
+console player.removeitem 2E4E3 999
+console player.additem 2E4E2 3
+wait 1
+
+# fill: the 3 empty ones become filled
+call fillSoulGems
+wait 1
+expect form 2E4E2 :: .playerCount == 0
+expect form 2E4E3 :: .playerCount == 3
+
+# off: a used gem is gone
+console player.removeitem 2E4E3 1
+wait 1
+expect form 2E4E3 :: .playerCount == 2
+expect form 2E4E2 :: .playerCount == 0
+
+# keep: it comes back empty
+set soulGemsKeep 1
+console player.removeitem 2E4E3 1
+wait 1
+expect form 2E4E3 :: .playerCount == 1
+expect form 2E4E2 :: .playerCount == 1
+
+# full: it comes back filled (also an empty-base gem comes back as the filled one)
+set soulGemsFull 1
+console player.removeitem 2E4E3 1
+wait 1
+expect form 2E4E3 :: .playerCount == 1
+console player.removeitem 2E4E2 1
+wait 1
+expect form 2E4E3 :: .playerCount == 2
+expect form 2E4E2 :: .playerCount == 0
+
+# any soul in any gem: petty takes grand / black souls; pairs still match; restored when off
+set anySoulInAnyGem 1
+apply
+expect form 2E4E2 :: .capacity == 5
+expect form 2E4E2 :: .npcSouls == true
+console player.removeitem 2E4E3 1
+wait 1
+expect form 2E4E3 :: .playerCount == 2
+# a real soul trap: a person's (black, grand) soul goes into a petty gem
+set soulGemsFull 0
+set soulGemsKeep 0
+console player.removeitem 2E4E2 999
+console player.removeitem 2E4E3 999
+console player.removeitem 2E500 999
+console player.additem 2E4E2 1
+call spawn mortalnpc
+wait 1.5
+call castOn 4DBA4 last
+wait 0.5
+console @last kill
+wait 3
+expect inv 14 :: . contains "souls": [5]
+set anySoulInAnyGem 0
+apply
+expect form 2E4E2 :: .capacity == 1
+expect form 2E4E2 :: .npcSouls == false
+set soulGemsKeep 0
+set soulGemsFull 0

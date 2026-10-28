@@ -1,0 +1,41 @@
+# Teleport to the player's map marker. Run on a freshly loaded save (it has no marker; the test leaves a fake one -
+# reload afterwards; the save starts by Honningbrew Meadery). The fake marker gets a wrong height on purpose, as the map's low-detail terrain gives:
+# the player must end up on the ground / water surface.
+console tgm
+
+# no marker yet: the button only says so
+menu open
+page teleport
+wait 0.8
+click К своей метке на карте
+wait 0.5
+expect ui К своей метке на карте :: [2] > 0
+expect log 3 :: . !contains landed at
+
+# marker at z 0 on a mountain (ground ~12770)
+call fakeMapMarker 34000 -60000 0
+expect mapmarker :: .pos[0] == 34000
+click К своей метке на карте
+wait 9
+expect player :: .pos[0] > 33500
+expect player :: .pos[2] > 12000
+expect log 3 :: . contains marker said 0
+
+# marker high in the air (ground ~4070)
+call fakeMapMarker 10000 -30000 9000
+call mapMarker
+wait 9
+expect player :: .pos[2] < 4500
+expect player :: .pos[2] > 3500
+
+# marker over the Sea of Ghosts: stay on the surface, not on the sea floor (~ -14800)
+call fakeMapMarker 30000 125000 0
+call mapMarker
+wait 9
+expect player :: .pos[2] > -14200
+# marker on the Honningbrew Meadery roof: on the roof (~ -3650), not inside the house at ground level (~ -4280)
+call fakeMapMarker 30229 -18246 0
+call mapMarker
+wait 9
+expect player :: .pos[2] > -3800
+console tgm

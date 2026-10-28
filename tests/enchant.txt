@@ -1,0 +1,65 @@
+# Зачарование page: put an enchantment on an iron sword and a worn iron helmet, take them off; a built-in one (Iron Sword of Fear)
+# swaps the item for a plain iron sword. Changes the inventory: reload afterwards.
+console coc qasmoke
+wait 9
+console player.removeitem 12EB7 99
+console player.removeitem 89714 99
+console player.removeitem 12E4D 99
+console player.additem 12EB7 1
+console player.additem 89714 1
+console player.additem 12E4D 1
+console player.equipitem 12E4D
+wait 1
+# an unknown item makes the bridge refresh the page's inventory snapshot (it is only refreshed while the page is open)
+call enchantItem 00000001 0 1
+wait 1
+call unenchant 00012EB7
+wait 1
+call enchantItem 00012EB7 0010FB95 55
+call enchantItem 00012E4D 0010FB77 50
+wait 2
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [55]
+expect inv 14 :: . contains "00012E4D", "type": 26, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [50]
+expect av health :: .max == 203
+call unenchant 00012E4D
+call unenchant 00012EB7
+call unenchant 00089714
+wait 2
+expect inv 14 :: . contains "00012E4D", "type": 26, "count": 1, "playable": true, "souls": [], "health": 1, "ench": []
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 2, "playable": true, "souls": [], "health": 1, "ench": []
+expect av health :: .max == 153
+# Built-in enchantment, common item: Iron Sword of Fear becomes a plain iron sword with the new enchantment; its base form keeps its own.
+console player.removeitem 12EB7 99
+console player.removeitem 89714 99
+console player.additem 89714 1
+wait 1
+call enchantItem 00000001 0 1
+wait 1
+call enchantItem 00089714 0010FB91 66
+wait 2
+expect inv 14 :: . !contains "00089714"
+expect inv 14 :: . contains "00012EB7", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [66], "game": "FF
+expect form 89714 :: .enchantment == "000FBFF7"
+# Built-in enchantment, unique item: the Nightingale Blade's base form gets it (the game reads that one), kept over save/load, put back on removal.
+console player.removeitem 7A917 99
+console player.additem 7A917 1
+console player.equipitem 7A917
+wait 1
+call enchantItem 00000001 0 1
+wait 1
+call enchantItem 0007A917 0010FB91 77 - 20000
+wait 2
+# worn: the new charge is full in the hand (unequipping used to write the old charge back into the item)
+expect inv 14 :: . contains "0007A917", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [77], "game": "FF
+expect console player.getav RightItemCharge :: . contains >> 20000
+expect inv 14 :: . contains "0007A917", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [77], "game": "FF
+console save CMEnchTest
+wait 3
+console load CMEnchTest
+wait 12
+expect inv 14 :: . contains "0007A917", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [77], "game": "FF
+call enchantItem 00000001 0 1
+wait 1
+call unenchant 0007A917
+wait 2
+expect inv 14 :: . contains "0007A917", "type": 41, "count": 1, "playable": true, "souls": [], "health": 1, "ench": [5, 5], "game": "000F6518"
