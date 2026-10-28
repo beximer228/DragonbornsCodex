@@ -54,8 +54,11 @@ English and Russian. A translation is a single plain .ini file: copy [i]lang\en.
 [/list]
 Found a bug or have an idea? Write in the Posts or Bugs tab.
 
+[size=4][b]License and source code[/b][/size]
+Dragonborn's Codex is free and open source under the [url=https://www.gnu.org/licenses/gpl-3.0.html]GNU GPL-3.0[/url] (it is built on CommonLibSSE-NG, which is GPL-3.0). The full source code is on [url=https://github.com/beximer228/DragonbornsCodex]GitHub[/url] and also inside the download (LICENSE.txt and the source folder next to the plugin). You may modify and redistribute the mod under the GPL terms.
+
 [size=4][b]Credits[/b][/size]
-SKSE team, CommonLibSSE-NG, Dear ImGui (Omar Cornut). Fonts Jost and Oswald (SIL Open Font License). Map marker icons and key glyphs come from Skyrim's own interface (Bethesda). Autoloot rules modelled on SmartHarvest SE.
+SKSE team, CommonLibSSE-NG (GPL-3.0), Dear ImGui (Omar Cornut, MIT). Fonts Jost and Oswald (SIL Open Font License). Map marker icons and key glyphs come from Skyrim's own interface (Bethesda). Autoloot rules modelled on SmartHarvest SE.
 
 [size=4][b]Описание на русском[/b][/size]
 [spoiler]
@@ -84,4 +87,5 @@ SKSE team, CommonLibSSE-NG, Dear ImGui (Omar Cornut). Fonts Jost and Oswald (SIL
 
 [b]Требования:[/b] SKSE64 и Address Library for SKSE Plugins. Проверено на версии 1.6.1170. Без .esp, можно ставить на существующее сохранение.
 [b]Удаление:[/b] выключите то, чем пользовались, сохранитесь и удалите мод.
+[b]Лицензия:[/b] GNU GPL-3.0, исходный код открыт: [url=https://github.com/beximer228/DragonbornsCodex]GitHub[/url] и папка source в архиве.
 [/spoiler]
